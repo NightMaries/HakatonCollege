@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "Es9pU+2sKECwGkNmHJyuizya1mhd22hdHvwtmoR9mvY=",
+  "Source": "Hakaton.API",
+  "BasePath": "_content/Hakaton.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
