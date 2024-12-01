@@ -63,6 +63,7 @@ public class TeacherRepository : ITeacheRepository
 
     public async Task<IEnumerable<Teacher>> GetTeachers()
     {
+        
         var query =  _query.Query("Teachers")
         .Select("Id","FIO","Classroom","UserId");
 
