@@ -169,3 +169,4 @@ Z:\VisualCodeProjects\HakatonCollege\Hakaton.API\bin\Debug\net9.0\Swashbuckle.As
 Z:\VisualCodeProjects\HakatonCollege\Hakaton.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 Z:\VisualCodeProjects\HakatonCollege\Hakaton.API\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 Z:\VisualCodeProjects\HakatonCollege\Hakaton.API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+Z:\VisualCodeProjects\HakatonCollege\Hakaton.API\obj\Debug\net9.0\Hakaton.API.sourcelink.json
