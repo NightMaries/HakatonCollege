@@ -22,7 +22,7 @@ public class TeacherController:ControllerBase
     {
         var result = await _teacheRepository.CreateTeacher(teacherDto,teacherDto.UserId);
         if(result is null)
-            throw new Exception("Неудалось создать пользователя");
+            throw new Exception("Не удалось создать пользователя");
         return Created($"https://localhost:5058/Teacher/{result.Id}",result);
     }
 
