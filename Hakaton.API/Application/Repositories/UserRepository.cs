@@ -36,7 +36,8 @@ public class UserRepository : IUserRepository
             Login = userDto.Login,
             PasswordHash = _cryptService.Encrypt(userDto.Password),
             Token = await _tokenService.CreateToken(userDto.Login),
-            RoleId = 1
+            RoleId = 1,
+            Subscription = false
             });
         
         
@@ -52,7 +53,7 @@ public class UserRepository : IUserRepository
             return false;
     }
 
-    public async Task<int> EditUser(UserDto userDto,int id, int roleId)
+    public async Task<int> EditUser(UserDto userDto,int id,bool subscription)
     {
     
         int affected = await _query.Query("Users")
@@ -60,7 +61,8 @@ public class UserRepository : IUserRepository
                 .UpdateAsync(new { Login = userDto.Login,
                     PasswordHash = _cryptService.Encrypt(userDto.Password),
                     Token = _tokenService.CreateToken(userDto.Login),
-                    RoleId = roleId
+                    RoleId = 1,
+                    Subscription = subscription
                 });
         return affected;
     }
@@ -70,7 +72,7 @@ public class UserRepository : IUserRepository
         var query = _query.Query("Users")
             .Where("Id",id)
             .Join("Roles","Roles.Id","Users.RoleId")
-            .Select("Id","Login","PasswordHash","Token","Users.RoleId");
+            .Select("Id","Login","PasswordHash","Token","Users.RoleId","Subscription");
 
         var result = await _query.FirstOrDefaultAsync<User>(query);
         if(result is null) throw new Exception("Пользователь не найден");
@@ -80,7 +82,7 @@ public class UserRepository : IUserRepository
     {
         var query = _query.Query("Users")
             .Where("Login",login)
-            .Select("Id","Login","PasswordHash","Token","Users.RoleId");
+            .Select("Id","Login","PasswordHash","Token","Users.RoleId","Subscription");
 
         var result = await _query.FirstOrDefaultAsync<User>(query);
         if(result is null) throw new Exception("Пользователь не найден");
@@ -90,7 +92,7 @@ public class UserRepository : IUserRepository
     {
         var query = _query.Query("Users")
                     .Join("Roles","Roles.Id","Users.RoleId")
-                    .Select("Users.Id","Login","PasswordHash","Token","RoleId");
+                    .Select("Users.Id","Login","PasswordHash","Token","RoleId","Subscription");
         var result = await _query.GetAsync<User>(query);
         if(result is null) throw new Exception("Ошибка в запросе");
         return result;

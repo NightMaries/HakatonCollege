@@ -57,6 +57,10 @@ public static class JwtServices
         services.AddScoped<ICryptService, CryptService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ILoginService,LoginService>();
+        services.AddScoped<IGroupRepository, GroupRepository>();
+        services.AddScoped<IScheduleRepository, ScheduleRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+
         services.AddScoped<IUserRepository,UserRepository>();
 
         return services;

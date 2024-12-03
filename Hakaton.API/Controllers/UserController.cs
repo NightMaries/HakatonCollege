@@ -50,9 +50,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> EditUser(UserDto userDto,int id,int roleId)
+    public async Task<IActionResult> EditUser(UserDto userDto,int id,bool subscription)
     {
-        var result = await _repository.EditUser(userDto,id,roleId);
+        var result = await _repository.EditUser(userDto,id,subscription);
         if (result == 0)
             return NotFound();
         return Ok(result);

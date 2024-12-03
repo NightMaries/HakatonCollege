@@ -3,6 +3,7 @@ using System;
 using Hakaton.API.Infrustructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hakaton.API.Migrations
 {
     [DbContext(typeof(HakatonContext))]
-    partial class HakatonContextModelSnapshot : ModelSnapshot
+    [Migration("20241203132151_RemoveCurator")]
+    partial class RemoveCurator
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +33,7 @@ namespace Hakaton.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("GroupName")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<int>("TeacherId")
@@ -108,14 +111,14 @@ namespace Hakaton.API.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("integer");
 
-                    b.Property<TimeSpan>("ScheduleEnd")
-                        .HasColumnType("interval");
+                    b.Property<TimeOnly>("PairEnd")
+                        .HasColumnType("time without time zone");
 
-                    b.Property<int>("ScheduleNumber")
+                    b.Property<int>("PairNumber")
                         .HasColumnType("integer");
 
-                    b.Property<TimeSpan>("ScheduleStart")
-                        .HasColumnType("interval");
+                    b.Property<TimeOnly>("PairStart")
+                        .HasColumnType("time without time zone");
 
                     b.Property<int>("StudyWeekId")
                         .HasColumnType("integer");
@@ -177,14 +180,11 @@ namespace Hakaton.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("EndDate")
+                    b.Property<DateTime>("End_Date")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("StartDate")
+                    b.Property<DateTime>("Start_Date")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<int>("StudyWeekNumber")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

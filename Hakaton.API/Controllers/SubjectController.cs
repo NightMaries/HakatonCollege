@@ -21,10 +21,10 @@ public class SubjectController:ControllerBase
     [HttpPost]    
     public async Task<IActionResult> CreateSubject(SubjectDto SubjectDto)
     {
-        var result = _SubjectRepository.CreateSubject(SubjectDto);
-        if(result is null)
+        var result = await _SubjectRepository.CreateSubject(SubjectDto);
+        if(result <= 0)
             throw new Exception("Не удалось создать предмет");
-        return Created($"https://localhost:5058/Subject/{result.Id}",result);
+        return Ok(result);
     }
 
     [HttpGet ("{id}")]
@@ -45,7 +45,7 @@ public class SubjectController:ControllerBase
     [HttpPut]
     public async Task<IActionResult> EditSubject(SubjectDto SubjectDto, int id)
     {
-        var result = _SubjectRepository.EditSubject(SubjectDto, id);
+        var result = await _SubjectRepository.EditSubject(SubjectDto, id);
         return Ok(result);
     }
 

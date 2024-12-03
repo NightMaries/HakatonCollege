@@ -24,7 +24,7 @@ public class SubjectRepository : ISubjectRepository
 
 
 
-    public async Task CreateSubject(SubjectDto subjectDto)
+    public async Task<int> CreateSubject(SubjectDto subjectDto)
     {
         if(subjectDto.Name is null || subjectDto.TeacherId <= 0)
             throw new Exception("Заполните поля");
@@ -35,8 +35,8 @@ public class SubjectRepository : ISubjectRepository
             Name = subjectDto.Name,
             TeacherId = subjectDto.TeacherId
         });
-        await _query.ExecuteAsync(query);
         
+        return await _query.ExecuteAsync(query);;
     }
 
     public async Task<bool> DeleteSubject(int id)
@@ -45,10 +45,10 @@ public class SubjectRepository : ISubjectRepository
         if (result != 1)
             throw new Exception("Предмет не найден");
         
-        return false;
+        return true;
     }
 
-    public async Task EditSubject(SubjectDto subjectDto, int id)
+    public async Task<int> EditSubject(SubjectDto subjectDto, int id)
     {
         if (subjectDto.Name is null || subjectDto.TeacherId <= 0)
             throw new Exception("Name и TeacherId обязательны для заполнения");
@@ -62,47 +62,26 @@ public class SubjectRepository : ISubjectRepository
             });
 
         if (affected == 0) throw new Exception("Предмет не найден");
+        
+        return affected;
     }
     public async Task<Subject> GetSubjectById(int id)
     {
         var query = _query.Query("Subjects")
             .Where("Id",id)
-            .Join("Teacher","Teacher.Id","Subject.TeacherId")
-            .Select("Id","Name","Subject.TeacherId");
+            .Select("Id","Name","Subjects.TeacherId");
 
         var result = await _query.FirstOrDefaultAsync<Subject>(query);
         if(result is null) throw new Exception("Предмет не найден");
         return result;
     }
-
-    public async Task<Subject> FindSubjectById(int id)
-    {
-        var query = _query.Query("Subjects")
-            .Where("Subjects.Id", id)
-            .Join("Teacher", "Teacher.Id", "Subjects.TeacherId")
-            .Select(
-                "Subjects.Id",
-                "Subjects.TeacherId",
-                "Subjects.Name",
-                "Teacher.Id as TeacherId",
-                "Teacher.FIO as TeacherFIO"
-            );
-
-        var result = await _query.FirstOrDefaultAsync<Subject>(query);
-        if (result is null) throw new Exception("Предмет не найден");
-        return result;
-    }
-
     public async Task<IEnumerable<Subject>> GetSubjects()
     {
         var query = _query.Query("Subjects")
-            .Join("Teacher", "Teacher.Id", "Subjects.TeacherId")
             .Select(
                 "Subjects.Id",
-                "Subjects.TeacherId",
                 "Subjects.Name",
-                "Teacher.Id as TeacherId",
-                "Teacher.FIO as TeacherFIO"
+                "Subjects.TeacherId"
             );
 
         var result = await _query.GetAsync<Subject>(query);
@@ -111,8 +90,4 @@ public class SubjectRepository : ISubjectRepository
 
     }
 
-    Task ISubjectRepository.FindSubjectById(int id)
-    {
-        throw new NotImplementedException();
-    }
 }

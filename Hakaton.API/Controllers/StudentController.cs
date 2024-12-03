@@ -16,14 +16,45 @@ namespace Hakaton.API.Controllers;
 
 public class StudentController : ControllerBase
 {
-    private readonly IStudentRepository _repository;
+    private readonly IStudentRepository _studentRepository;
+    
     HMACSHA256 hmacStudent = new HMACSHA256();
 
     public StudentController(IStudentRepository repository)
     {
-        _repository = repository;
+        _studentRepository = repository;
     }
 
-    //[HttpPost]
+    [HttpGet]
+    public async Task<IActionResult> ListSchedules()
+    {
+        var result = await _studentRepository.GetStudents();
+        if(result is null)
+            return NotFound();
+        return Ok(result);
+    }
+    [HttpPost]    
+    public async Task<IActionResult> CreateStudent(StudentDto student)
+    {
+        var result = await _studentRepository.CreateStudent(student);
+        if(result != 1)
+            throw new Exception("Не удалось создать запись в расписании");
+        return Ok(result);
+    }
+    [HttpPut]
+    public async Task<IActionResult> EditStudent(StudentDto studentDto, int id)
+    {
+        var result = await _studentRepository.EditStudent(studentDto,id);
+        return Ok(result);
+    }
 
+    [HttpDelete]
+    public async Task<IActionResult> RemoveTeacher(int id)
+    {
+        var result = await _studentRepository.DeleteStudent(id);
+        if(!result)
+            return NotFound(result);
+        else
+            return BadRequest(result);
+    }
 }

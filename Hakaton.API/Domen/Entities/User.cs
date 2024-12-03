@@ -6,6 +6,7 @@ public class User
     public string Login {get; set;}
     public required string PasswordHash {get; set;}
     public string Token {get; set;}
+    public bool Subscription {get; set;}
     public int RoleId {get; set;}
     public Role Role {get; set;}
 }

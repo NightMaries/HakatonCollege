@@ -15,11 +15,13 @@ public class GroupRepository : IGroupRepository
     public async Task<Group> CreateGroup(GroupDto groupDto, int userId)
     {
         var group = new Group() {
-            CuratorId = userId
+            GroupName = groupDto.Name,
+            TeacherId = userId
         };
         var result = _query.Query("Groups")
         .AsInsert(new 
         {
+            GroupName = groupDto.Name,
             TeacherId = userId
         }
         );
@@ -38,17 +40,18 @@ public class GroupRepository : IGroupRepository
 
     public async Task<int> EditGroup(GroupDto groupDto, int id)
     {
-        var user = await GetGroupById(id);
-        var result =await _query.Query("Groups").Where("Id",user.Id)
+        var group = await GetGroupById(id);
+        var result =await _query.Query("Groups").Where("Id",group.Id)
         .UpdateAsync(new{
-            CuratorId = groupDto.CuratorId});
+            GroupName = groupDto.Name,
+            TeacherId = groupDto.TeacherId});
         return result;    
     }
 
     public async Task<Group> GetGroupById(int id)
     {
         var query = _query.Query("Groups").Where("Id",id)
-        .Select("CuratorId");
+        .Select("Id","GroupName","TeacherId");
 
         var result = await _query.FirstOrDefaultAsync<Group>(query);
         if(result is null) throw new Exception("Группа не найден");
@@ -59,7 +62,7 @@ public class GroupRepository : IGroupRepository
     {
         
         var query =  _query.Query("Groups")
-        .Select("CuratorId");
+        .Select("Id","GroupName","TeacherId");
 
         var result = await _query.GetAsync<Group>(query);
         if(result is null) throw new Exception("Данных нет в БД");

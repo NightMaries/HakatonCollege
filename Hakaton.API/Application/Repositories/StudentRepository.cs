@@ -24,20 +24,20 @@ public class StudentRepository : IStudentRepository
 
 
 
-    public async Task CreateStudent(Student student)
+    public async Task<int> CreateStudent(StudentDto studentDto)
     {
-        if(student.UserId <= 0 || student.GroupId <= 0)
+        if(studentDto.UserId <= 0 || studentDto.GroupId <= 0)
         {
             throw new Exception("Заполните поля");
         }
 
         var query = _query.Query("Students").AsInsert(new 
         {
-            FIO = student.FIO,
-            UserId = student.UserId,
-            GroupId = student.GroupId
+            FIO = studentDto.FIO,
+            UserId = studentDto.UserId,
+            GroupId = studentDto.GroupId
         });
-        await _query.ExecuteAsync(query);
+        return await _query.ExecuteAsync(query);
         
     }
 
@@ -50,20 +50,21 @@ public class StudentRepository : IStudentRepository
         return false;
     }
 
-    public async Task EditStudent(Student student, int id)
+    public async Task EditStudent(StudentDto studentDto, int id)
     {
-        if (student.UserId <= 0 || student.GroupId <= 0)
+        if (studentDto.UserId <= 0 || studentDto.GroupId <= 0)
             throw new Exception("UserId и GroupId обязательны для заполнения");
 
         var affected = await _query.Query("Students")
             .Where("Id", id)
             .UpdateAsync(new
             {
-                UserId = student.UserId,
-                GroupId = student.GroupId
+                UserId = studentDto.UserId,
+                GroupId = studentDto.GroupId,
+                FIO = studentDto.FIO
             });
 
-        if (affected == 0) throw new Exception("Студент не найден");
+        if (affected != 1) throw new Exception("Студент не найден");
     }
 
     public async Task<Student> FindStudentById(int id)

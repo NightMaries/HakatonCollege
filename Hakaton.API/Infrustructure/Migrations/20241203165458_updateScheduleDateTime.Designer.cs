@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hakaton.API.Migrations
 {
     [DbContext(typeof(HakatonContext))]
-    [Migration("20241201080611_userupdate")]
-    partial class userupdate
+    [Migration("20241203165458_updateScheduleDateTime")]
+    partial class updateScheduleDateTime
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,24 +25,6 @@ namespace Hakaton.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Hakaton.API.Domen.Entities.Curator", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("TeacherId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("Curators");
-                });
-
             modelBuilder.Entity("Hakaton.API.Domen.Entities.Group", b =>
                 {
                     b.Property<int>("Id")
@@ -51,16 +33,15 @@ namespace Hakaton.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CuratorId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CuratorId");
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Groups");
                 });
@@ -85,8 +66,10 @@ namespace Hakaton.API.Migrations
                     b.Property<int>("OldSubjectId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("PairNumber")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Reason")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -128,6 +111,15 @@ namespace Hakaton.API.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("ScheduleEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("ScheduleNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ScheduleStart")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<int>("StudyWeekId")
                         .HasColumnType("integer");
 
@@ -138,7 +130,6 @@ namespace Hakaton.API.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("WeekDay")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -154,13 +145,17 @@ namespace Hakaton.API.Migrations
                     b.ToTable("Schedules");
                 });
 
-            modelBuilder.Entity("Hakaton.API.Domen.Entities.Students", b =>
+            modelBuilder.Entity("Hakaton.API.Domen.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("FIO")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<int>("GroupId")
                         .HasColumnType("integer");
@@ -185,11 +180,14 @@ namespace Hakaton.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("End_Date")
+                    b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<DateTime>("Start_Date")
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("StudyWeekNumber")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -234,12 +232,12 @@ namespace Hakaton.API.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("UserId1")
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Teachers");
                 });
@@ -274,7 +272,7 @@ namespace Hakaton.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Hakaton.API.Domen.Entities.Curator", b =>
+            modelBuilder.Entity("Hakaton.API.Domen.Entities.Group", b =>
                 {
                     b.HasOne("Hakaton.API.Domen.Entities.Teacher", "Teacher")
                         .WithMany()
@@ -283,17 +281,6 @@ namespace Hakaton.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Teacher");
-                });
-
-            modelBuilder.Entity("Hakaton.API.Domen.Entities.Group", b =>
-                {
-                    b.HasOne("Hakaton.API.Domen.Entities.Curator", "Curator")
-                        .WithMany()
-                        .HasForeignKey("CuratorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Curator");
                 });
 
             modelBuilder.Entity("Hakaton.API.Domen.Entities.Replacement", b =>
@@ -358,7 +345,7 @@ namespace Hakaton.API.Migrations
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("Hakaton.API.Domen.Entities.Students", b =>
+            modelBuilder.Entity("Hakaton.API.Domen.Entities.Student", b =>
                 {
                     b.HasOne("Hakaton.API.Domen.Entities.Group", "Group")
                         .WithMany()
@@ -392,7 +379,7 @@ namespace Hakaton.API.Migrations
                 {
                     b.HasOne("Hakaton.API.Domen.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

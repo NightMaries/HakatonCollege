@@ -20,7 +20,7 @@ public class GroupController:ControllerBase
     [HttpPost]    
     public async Task<IActionResult> CreateGroup(GroupDto groupDto)
     {
-        var result = await _groupRepository.CreateGroup(groupDto,groupDto.CuratorId);
+        var result = await _groupRepository.CreateGroup(groupDto,groupDto.TeacherId);
         if(result is null)
             throw new Exception("Не удалось создать группу");
         return Created($"https://localhost:5058/Group/{result.Id}",result);

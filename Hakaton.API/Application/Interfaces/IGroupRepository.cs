@@ -12,6 +12,6 @@ public interface IGroupRepository
 
     public Task<bool> DeleteGroup(int id);
 
-    public Task<Group> CreateGroup(GroupDto groupDto, int curatorId);
+    public Task<Group> CreateGroup(GroupDto groupDto, int teacherId);
 
 }

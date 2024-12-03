@@ -18,12 +18,14 @@ public class ScheduleController:ControllerBase
     }
 
     [HttpPost]    
-    public async Task<IActionResult> CreateSchedule(ScheduleDto scheduleDto)
+    public async Task<IActionResult> CreateSchedule(ScheduleDtoPost scheduleDto,[FromQuery]int scheduleStartHour,[FromQuery]int scheduleStartMinute,
+            [FromQuery]int scheduleEndHour,[FromQuery]int scheduleEndMinute)
     {
-        var result = await _scheduleRepository.CreateSchedule(scheduleDto);
-        if(result is null)
+        var result = await _scheduleRepository.CreateSchedule(scheduleDto, scheduleStartHour,scheduleStartMinute,
+        scheduleEndHour,scheduleEndMinute);
+        if(result != 1)
             throw new Exception("Не удалось создать запись в расписании");
-        return Created($"https://localhost:5058/Schedule/{result.Id}",result);
+        return Ok(scheduleDto);
     }
 
     [HttpGet ("{id}")]
@@ -42,9 +44,11 @@ public class ScheduleController:ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> EditSchedule(ScheduleDto scheduleDto, int id)
+    public async Task<IActionResult> EditSchedule(ScheduleDtoPost scheduleDto, int id,int scheduleStartHour, 
+    int scheduleStartMinute,  int scheduleEndHour,int scheduleEndMinute)
     {
-        var result = await _scheduleRepository.EditSchedule(scheduleDto,id);
+        var result = await _scheduleRepository.EditSchedule(scheduleDto,id,scheduleStartHour,scheduleStartMinute,
+        scheduleEndHour,scheduleEndMinute);
         return Ok(result);
     }
 

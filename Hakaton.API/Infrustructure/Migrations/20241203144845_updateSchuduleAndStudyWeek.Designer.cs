@@ -3,6 +3,7 @@ using System;
 using Hakaton.API.Infrustructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hakaton.API.Migrations
 {
     [DbContext(typeof(HakatonContext))]
-    partial class HakatonContextModelSnapshot : ModelSnapshot
+    [Migration("20241203144845_updateSchuduleAndStudyWeek")]
+    partial class updateSchuduleAndStudyWeek
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +33,7 @@ namespace Hakaton.API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("GroupName")
+                    b.Property<string>("Name")
                         .HasColumnType("text");
 
                     b.Property<int>("TeacherId")
@@ -108,14 +111,14 @@ namespace Hakaton.API.Migrations
                     b.Property<int>("GroupId")
                         .HasColumnType("integer");
 
-                    b.Property<TimeSpan>("ScheduleEnd")
-                        .HasColumnType("interval");
+                    b.Property<TimeOnly>("ScheduleEnd")
+                        .HasColumnType("time without time zone");
 
                     b.Property<int>("ScheduleNumber")
                         .HasColumnType("integer");
 
-                    b.Property<TimeSpan>("ScheduleStart")
-                        .HasColumnType("interval");
+                    b.Property<TimeOnly>("ScheduleStart")
+                        .HasColumnType("time without time zone");
 
                     b.Property<int>("StudyWeekId")
                         .HasColumnType("integer");

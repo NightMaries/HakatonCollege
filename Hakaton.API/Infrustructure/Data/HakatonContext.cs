@@ -15,7 +15,6 @@ namespace Hakaton.API.Infrustructure.Data;
 public class HakatonContext: DbContext
 {
     DbSet<User> Users {get; set;}
-    DbSet<Curator> Curators {get; set;}
     DbSet<Replacement> Replacements {get; set;}
 
     DbSet<Role> Roles {get; set;}
