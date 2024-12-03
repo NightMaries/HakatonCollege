@@ -3,6 +3,7 @@ using System;
 using Hakaton.API.Infrustructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Hakaton.API.Migrations
 {
     [DbContext(typeof(HakatonContext))]
-    partial class HakatonContextModelSnapshot : ModelSnapshot
+    [Migration("20241203211749_AddPushReplacement")]
+    partial class AddPushReplacement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -272,47 +275,6 @@ namespace Hakaton.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PushReplacement", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ReplacementId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReplacementId");
-
-                    b.ToTable("PushReplacements");
-                });
-
-            modelBuilder.Entity("PushReplacementUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("pushReplacementId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("pushReplacementId");
-
-                    b.ToTable("PushReplacementUsers");
-                });
-
             modelBuilder.Entity("Hakaton.API.Domen.Entities.Group", b =>
                 {
                     b.HasOne("Hakaton.API.Domen.Entities.Teacher", "Teacher")
@@ -436,36 +398,6 @@ namespace Hakaton.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Role");
-                });
-
-            modelBuilder.Entity("PushReplacement", b =>
-                {
-                    b.HasOne("Hakaton.API.Domen.Entities.Replacement", "Replacements")
-                        .WithMany()
-                        .HasForeignKey("ReplacementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Replacements");
-                });
-
-            modelBuilder.Entity("PushReplacementUser", b =>
-                {
-                    b.HasOne("Hakaton.API.Domen.Entities.User", "user")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PushReplacement", "pushReplacement")
-                        .WithMany()
-                        .HasForeignKey("pushReplacementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("pushReplacement");
-
-                    b.Navigation("user");
                 });
 #pragma warning restore 612, 618
         }

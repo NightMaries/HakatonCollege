@@ -25,12 +25,10 @@ public class StudentController : ControllerBase
         _studentRepository = repository;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> ListSchedules()
+    [HttpGet ("{id}")]
+    public async Task<IActionResult> FindStudentById(int id)
     {
-        var result = await _studentRepository.GetStudents();
-        if(result is null)
-            return NotFound();
+        var result = await _studentRepository.GetStudentById(id);
         return Ok(result);
     }
     [HttpPost]    
@@ -38,7 +36,15 @@ public class StudentController : ControllerBase
     {
         var result = await _studentRepository.CreateStudent(student);
         if(result != 1)
-            throw new Exception("Не удалось создать запись в расписании");
+            throw new Exception("Не удалось создать студента");
+        return Ok(result);
+    }
+    [HttpGet]
+    public async Task<IActionResult> ListSchedules()
+    {
+        var result = await _studentRepository.GetStudents();
+        if(result is null)
+            return NotFound();
         return Ok(result);
     }
     [HttpPut]

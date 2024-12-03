@@ -8,8 +8,12 @@ namespace Hakaton.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ReplaceController: ControllerBase
+public class ReplacementController: ControllerBase
 {
+    [HttpPost]
+    [HttpGet]
+    [HttpDelete]
+    [Http]
 
     
 }

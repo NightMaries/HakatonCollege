@@ -5,7 +5,7 @@ using Hakaton.API.Infrustructure.Data;
 using SqlKata.Execution;
 
 namespace Hakaton.API.Application.Repositories;
-public class TeacherRepository : ITeacheRepository
+public class TeacherRepository : ITeacherRepository
 {
     private readonly QueryFactory _query;
     public TeacherRepository(HakatonContext hakatonContext)

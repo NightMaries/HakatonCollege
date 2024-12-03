@@ -86,6 +86,8 @@ public class ScheduleRepository : IScheduleRepository
 
     public async Task<ScheduleDtoGet> GetScheduleById(int id)
     {
+        //Сделать пометку для текущей пары
+        //Также изменить DTO для этого
         var query = _query.Query("Schedules")
             .Where("Id",id)
             .Select("Id", "GroupId","SubjectId","TeacherId","WeekDay","StudyWeekId",

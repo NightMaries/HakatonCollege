@@ -52,15 +52,19 @@ public static class JwtServices
                             };
                         });
         services.AddAuthorization();
-        
-        services.AddScoped<ITeacheRepository, TeacherRepository>();
+
+
+
+        services.AddScoped<IPushReplacementRepository, PushReplacementUserRepository>();
+        services.AddScoped<IReplacementRepository, ReplacementRepository>();
+        services.AddScoped<ITeacherRepository, TeacherRepository>();
+        services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<ICryptService, CryptService>();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<ILoginService,LoginService>();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IScheduleRepository, ScheduleRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
-
         services.AddScoped<IUserRepository,UserRepository>();
 
         return services;

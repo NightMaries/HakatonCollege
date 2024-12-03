@@ -47,10 +47,10 @@ public class StudentRepository : IStudentRepository
         if (result != 1)
             throw new Exception("Студент не найден");
         
-        return false;
+        return true;
     }
 
-    public async Task EditStudent(StudentDto studentDto, int id)
+    public async Task<int> EditStudent(StudentDto studentDto, int id)
     {
         if (studentDto.UserId <= 0 || studentDto.GroupId <= 0)
             throw new Exception("UserId и GroupId обязательны для заполнения");
@@ -65,54 +65,28 @@ public class StudentRepository : IStudentRepository
             });
 
         if (affected != 1) throw new Exception("Студент не найден");
+        return affected;
     }
 
-    public async Task<Student> FindStudentById(int id)
+    public async Task<IEnumerable<StudentDto>> GetStudents()
     {
         var query = _query.Query("Students")
-            .Where("Students.Id", id)
-            .Join("Users", "Users.Id", "Students.UserId")
-            .Join("Groups", "Groups.Id", "Students.GroupId")
-            .Select(
-                "Students.Id",
-                "Students.UserId",
-                "Students.GroupId",
-                "Students.FIO",
-                "Users.Id as UserId",
-                "Users.Login as UserLogin",
-                "Groups.Id as GroupId",
-                "Groups.Name as GroupName"
-            );
+            .Select("Id","UserId","GroupId","FIO");
 
-        var result = await _query.FirstOrDefaultAsync<Student>(query);
-        if (result is null) throw new Exception("Студент не найден");
-        return result;
-    }
-
-    public async Task<IEnumerable<Student>> GetStudents()
-    {
-        var query = _query.Query("Students")
-            .Join("Users", "Users.Id", "Students.UserId")
-            .Join("Groups", "Groups.Id", "Students.GroupId")
-            .Select(
-                "Students.Id",
-                "Students.UserId",
-                "Students.GroupId",
-                "Students.FIO",
-                "Users.Login as UserLogin",
-                "Groups.Id as GroupId",
-                "Students.FIO as FIO",
-                "Groups.Name as GroupName"
-            );
-
-        var result = await _query.GetAsync<Student>(query);
+        var result = await _query.GetAsync<StudentDto>(query);
         if (result is null || !result.Any()) throw new Exception("Нет данных");
         return result;
 
     }
-
-    Task IStudentRepository.FindStudentById(int id)
+    public async Task<StudentDto> GetStudentById(int id)
     {
-        throw new NotImplementedException();
+        var query = _query.Query("Students").Where("Id",id)
+        .Select("Id","FIO","UserId","GroupId");
+
+        var result = await _query.FirstOrDefaultAsync<StudentDto>(query);
+        if(result is null) throw new Exception("Студент не найден");
+        return result;
     }
+
+    
 }

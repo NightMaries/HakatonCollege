@@ -2,6 +2,7 @@ using Hakaton.API.Domen.Dto;
 using Hakaton.API.Domen.Entities;
 
 namespace Hakaton.API.Application.Interfaces;
+
 public interface IScheduleRepository
 {
     public Task<IEnumerable<ScheduleDtoGet>> GetSchedules();

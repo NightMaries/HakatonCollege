@@ -10,17 +10,17 @@ namespace Hakaton.API.Controllers;
 [Route("[controller]")]
 public class TeacherController:ControllerBase
 {
-    private readonly ITeacheRepository _teacheRepository;
+    private readonly ITeacherRepository _teacherRepository;
 
-    public TeacherController(ITeacheRepository teacheRepository)
+    public TeacherController(ITeacherRepository teacheRepository)
     {
-        _teacheRepository = teacheRepository;
+        _teacherRepository = teacheRepository;
     }
 
     [HttpPost]    
     public async Task<IActionResult> CreateTeacher(TeacherDto teacherDto)
     {
-        var result = await _teacheRepository.CreateTeacher(teacherDto,teacherDto.UserId);
+        var result = await _teacherRepository.CreateTeacher(teacherDto,teacherDto.UserId);
         if(result is null)
             throw new Exception("Не удалось создать пользователя");
         return Created($"https://localhost:5058/Teacher/{result.Id}",result);
@@ -29,13 +29,13 @@ public class TeacherController:ControllerBase
     [HttpGet ("{id}")]
     public async Task<IActionResult> FindTeacherById(int id)
     {
-        var result = await _teacheRepository.GetTeacherById(id);
+        var result = await _teacherRepository.GetTeacherById(id);
         return Ok(result);
     }
     [HttpGet]
     public async Task<IActionResult> ListTeachers()
     {
-        var result = await _teacheRepository.GetTeachers();
+        var result = await _teacherRepository.GetTeachers();
         if(result is null)
             return NotFound();
         return Ok(result);
@@ -44,14 +44,14 @@ public class TeacherController:ControllerBase
     [HttpPut]
     public async Task<IActionResult> EditTeacher(TeacherDto teacherDto, int id)
     {
-        var result = await _teacheRepository.EditTeacher(teacherDto,id);
+        var result = await _teacherRepository.EditTeacher(teacherDto,id);
         return Ok(result);
     }
 
     [HttpDelete]
     public async Task<IActionResult> RemoveTeacher(int id)
     {
-        var result = await _teacheRepository.DeleteTeacher(id);
+        var result = await _teacherRepository.DeleteTeacher(id);
         if(!result)
             return NotFound(result);
         else

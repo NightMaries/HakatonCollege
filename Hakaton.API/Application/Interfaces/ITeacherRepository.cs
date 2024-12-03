@@ -2,7 +2,8 @@ using Hakaton.API.Domen.Dto;
 using Hakaton.API.Domen.Entities;
 
 namespace Hakaton.API.Application.Interfaces;
-public interface ITeacheRepository
+
+public interface ITeacherRepository
 {
     public Task<IEnumerable<Teacher>> GetTeachers();
     
