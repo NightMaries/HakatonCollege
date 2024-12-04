@@ -60,7 +60,7 @@ public class UserRepository : IUserRepository
                 .Where("Id", id)
                 .UpdateAsync(new { Login = userDto.Login,
                     PasswordHash = _cryptService.Encrypt(userDto.Password),
-                    Token = _tokenService.CreateToken(userDto.Login),
+                    Token = await _tokenService.CreateToken(userDto.Login),
                     RoleId = 1,
                     Subscription = subscription
                 });
@@ -71,8 +71,7 @@ public class UserRepository : IUserRepository
     {
         var query = _query.Query("Users")
             .Where("Id",id)
-            .Join("Roles","Roles.Id","Users.RoleId")
-            .Select("Id","Login","PasswordHash","Token","Users.RoleId","Subscription");
+            .Select("Users.Id","Login","PasswordHash","Token","Users.RoleId","Subscription");
 
         var result = await _query.FirstOrDefaultAsync<User>(query);
         if(result is null) throw new Exception("Пользователь не найден");

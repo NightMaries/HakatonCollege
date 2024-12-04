@@ -2,12 +2,14 @@
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Text;
+using DocumentFormat.OpenXml.Office.CustomUI;
 using Hakaton.API.Application.Interfaces;
 using Hakaton.API.Domen.Dto;
 using Hakaton.API.Domen.Entities;
 using Hakaton.API.Infrustructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure.Internal;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.VisualBasic;
@@ -45,7 +47,8 @@ public class ScheduleRepository : IScheduleRepository
             StudyWeekId = scheduleDto.StudyWeekId,
             ScheduleStart = scheduleStart1,
             ScheduleEnd = scheduleEnd1,
-            ScheduleNumber = scheduleDto.ScheludeNumber
+            ScheduleNumber = scheduleDto.ScheludeNumber,
+            Date = scheduleDto.Date
         }
         );
         return await _query.ExecuteAsync(result);
@@ -79,7 +82,8 @@ public class ScheduleRepository : IScheduleRepository
                     StudyWeekId = scheduleDto.StudyWeekId,
                     ScheduleStart = scheduleStart1,
                     ScheduleEnd = scheduleEnd1,
-                    ScheduleNumber = scheduleDto.ScheludeNumber
+                    ScheduleNumber = scheduleDto.ScheludeNumber,
+                    Date = scheduleDto.Date
                 });
         return affected;
     }
@@ -91,7 +95,7 @@ public class ScheduleRepository : IScheduleRepository
         var query = _query.Query("Schedules")
             .Where("Id",id)
             .Select("Id", "GroupId","SubjectId","TeacherId","WeekDay","StudyWeekId",
-                "ScheduleStart","ScheduleEnd","ScheduleNumber");
+                "ScheduleStart","ScheduleEnd","ScheduleNumber","Date");
         
         var result = await _query.FirstOrDefaultAsync<Schedule>(query);
         
@@ -100,6 +104,12 @@ public class ScheduleRepository : IScheduleRepository
             var queryTeacher = _query.Query("Teachers").Where("Id",result.TeacherId).Select("FIO");
             
             var querySubject = _query.Query("Subjects").Where("Id",result.SubjectId).Select("Name");
+
+            
+            var dateTime = DateTime.UtcNow.TimeOfDay;
+            bool currentPair = false;
+            if(result.ScheduleStart <= dateTime && dateTime >= result.ScheduleEnd)
+                currentPair = true;
 
             ScheduleDtoGet schedule = new ScheduleDtoGet
             {
@@ -111,7 +121,9 @@ public class ScheduleRepository : IScheduleRepository
                 StudyWeekId = result.StudyWeekId,
                 ScheludeNumber = result.ScheduleNumber,
                 ScheduleStart = result.ScheduleStart,
-                ScheduleEnd = result.ScheduleEnd
+                ScheduleEnd = result.ScheduleEnd,
+                Date = result.Date,
+                CurrentPair = currentPair
                 };
         if(result is null) throw new Exception("Запись о расписании не найдена");
         return schedule;
@@ -122,7 +134,7 @@ public class ScheduleRepository : IScheduleRepository
 
         var query = _query.Query("Schedules")
                     .Select("Schedules.Id","GroupId","TeacherId",
-                    "SubjectId","WeekDay","StudyWeekId","ScheduleStart","ScheduleEnd","ScheduleNumber");
+                    "SubjectId","WeekDay","StudyWeekId","ScheduleStart","ScheduleEnd","ScheduleNumber","Date");
 
         var result = await _query.GetAsync<Schedule>(query);
         List<ScheduleDtoGet> list = new List<ScheduleDtoGet>();
@@ -134,6 +146,11 @@ public class ScheduleRepository : IScheduleRepository
             var queryTeacher = _query.Query("Teachers").Where("Id",item.TeacherId).Select("FIO");
             
             var querySubject = _query.Query("Subjects").Where("Id",item.SubjectId).Select("Name");
+            
+            var dateTime = DateTime.Now.TimeOfDay;
+            bool currentPair = false;
+            if(item.ScheduleStart <= dateTime && dateTime >= item.ScheduleEnd)
+                currentPair = true;
 
             list.Add(new ScheduleDtoGet
             {
@@ -145,7 +162,9 @@ public class ScheduleRepository : IScheduleRepository
                 StudyWeekId = item.StudyWeekId,
                 ScheludeNumber = item.ScheduleNumber,
                 ScheduleStart = item.ScheduleStart,
-                ScheduleEnd = item.ScheduleEnd
+                ScheduleEnd = item.ScheduleEnd,
+                Date = item.Date,
+                CurrentPair = currentPair
                 
             });
 

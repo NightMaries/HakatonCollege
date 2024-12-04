@@ -10,9 +10,10 @@ namespace Hakaton.API.Controllers;
 
 public class ParcingScheduleForTeachersController : ControllerBase
 {
-    private readonly IParcingScheduleForTeachersService _scheduleService;
-
-    public ParcingScheduleForTeachersController(IParcingScheduleForTeachersService scheduleService)
+    
+    private readonly IParsingScheduleForTeachersService _scheduleService;
+    
+    public ParcingScheduleForTeachersController(IParsingScheduleForTeachersService scheduleService)
     {
         _scheduleService = scheduleService;
     }
@@ -22,7 +23,7 @@ public class ParcingScheduleForTeachersController : ControllerBase
     {
         try
         {
-            var parsedData = _scheduleService.Parcing();
+            var parsedData = _scheduleService.Parse();
             return Ok(new { Message = "Парсинг выполнен успешно", Data = parsedData });
         }
         catch (Exception ex)

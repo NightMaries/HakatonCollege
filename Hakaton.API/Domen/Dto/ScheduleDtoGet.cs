@@ -11,8 +11,9 @@ public class ScheduleDtoGet
     public string WeekDay {get;set;}
     public int StudyWeekId {get;set;}
     public int ScheludeNumber {get; set;}
-    
+    public DateTime Date{get; set;}
     public TimeSpan ScheduleStart {get; set;}
     public TimeSpan ScheduleEnd {get; set;}
+    public bool CurrentPair {get;set;} 
     
 }

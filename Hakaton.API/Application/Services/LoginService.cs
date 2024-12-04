@@ -36,7 +36,7 @@ public class LoginService: ILoginService
     
     
    
-    public async Task<int> CheckUserPassword(UserDto userDto)
+    public async Task<LoginDtoGet> CheckUserPassword(UserDto userDto)
     {
 
         User user = await _repository.GetUserByLogin(userDto.Login);
@@ -50,7 +50,13 @@ public class LoginService: ILoginService
         if(decryptedPassword != userDto.Password) throw new Exception("Неверный пароль");
         var jwt = await _token.CreateToken(userDto.Login);
         var userGet  = await _repository.GetUserByLogin(userDto.Login);
-        return userGet.Id;
+        LoginDtoGet loginDtoGet = new LoginDtoGet
+        {
+            Id = userGet.Id,
+            RoleId = userGet.RoleId
+
+        };
+        return loginDtoGet;
         
     }
 

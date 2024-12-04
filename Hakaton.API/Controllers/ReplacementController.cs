@@ -29,7 +29,7 @@ public class ReplacementController: ControllerBase
     public async Task<IActionResult> CreateReplacement(ReplacementDtoPost replacement)
     {
         var result = await _replacementRepository.CreateReplacement(replacement);
-        if(result != 1)
+        if(result is null)
             throw new Exception("Не удалось создать замены");
         return Ok(result);
     }

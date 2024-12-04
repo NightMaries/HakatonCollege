@@ -10,9 +10,14 @@ using SqlKata.Execution;
 
 namespace ParcingScheduleForTeachersRepository 
 {
-    public class ExcelRepository : IParcingScheduleForTeachersService
+    public class ExcelRepository : IParsingScheduleForTeachersService
     {
         public string Parcing()
+        {
+            throw new NotImplementedException();
+        }
+
+        public string Parse()
         {
             throw new NotImplementedException();
         }

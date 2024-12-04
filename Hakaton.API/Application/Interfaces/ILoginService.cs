@@ -4,5 +4,5 @@ namespace Hakaton.API.Application.Interfaces;
 
 public interface ILoginService
 {
-    public Task<int> CheckUserPassword(UserDto userDto);
+    public Task<LoginDtoGet> CheckUserPassword(UserDto userDto);
 }

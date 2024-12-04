@@ -6,6 +6,6 @@ public interface IReplacementRepository
     public Task<IEnumerable<ReplacementDtoGet>> GetReplacements();
     public Task<int> EditReplacement (ReplacementDtoPost replacementDtoPost, int id);
     public Task<bool> DeleteReplacement(int id);
-    Task<int> CreateReplacement(ReplacementDtoPost replacementDtoPost);
+    Task<IEnumerable<PushReplacementUser>> CreateReplacement(ReplacementDtoPost replacementDtoPost);
     Task<ReplacementDtoGet> GetReplacementById(int id);
 }

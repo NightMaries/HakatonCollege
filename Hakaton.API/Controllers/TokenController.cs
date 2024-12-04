@@ -9,9 +9,9 @@ using Microsoft.IdentityModel.Tokens;
 public class TokenController : ControllerBase
 {
     private readonly IConfiguration _config;
-    private readonly IParcingScheduleForTeachersService _parcingScheduleForTeachers;
+    private readonly IParsingScheduleForTeachersService _parcingScheduleForTeachers;
 
-    public TokenController(IConfiguration config, IParcingScheduleForTeachersService parcingScheduleForTeachers)
+    public TokenController(IConfiguration config, IParsingScheduleForTeachersService parcingScheduleForTeachers)
     {
         _config = config;
         _parcingScheduleForTeachers = parcingScheduleForTeachers;
@@ -21,7 +21,7 @@ public class TokenController : ControllerBase
     public IActionResult Parcing()
     {
         string path = "../Resources/ScheduleForTeachers.xlsx";
-        var result = _parcingScheduleForTeachers.Parcing();
+        var result = _parcingScheduleForTeachers.Parse();
         return Ok(result);
     }
 

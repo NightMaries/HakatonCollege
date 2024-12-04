@@ -55,15 +55,19 @@ public static class JwtServices
 
 
 
-        
+
+
+        services.AddScoped<IStudyWeekRepository, StudyWeekRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IPushReplacementUserRepository, PushReplacementUserRepository>();
         services.AddScoped<IReplacementRepository, ReplacementRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
         services.AddScoped<IPushReplacementService, PushReplacementService>();
-        services.AddScoped<IParcingScheduleForTeachersService, ParcingScheduleForTeachersService>();
+        services.AddScoped<IParsingScheduleForTeachersService, ParsingScheduleForTeachersService>();
         services.AddScoped<ICryptService, CryptService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<ITeacherStatisticsRepository, TeacherStatisticsRepository>();
         services.AddScoped<ILoginService,LoginService>();
         services.AddScoped<IGroupRepository, GroupRepository>();
         services.AddScoped<IScheduleRepository, ScheduleRepository>();

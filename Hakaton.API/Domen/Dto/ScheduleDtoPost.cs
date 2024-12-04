@@ -8,5 +8,5 @@ public class ScheduleDtoPost
     public string WeekDay {get;set;}
     public int StudyWeekId {get;set;}
     public int ScheludeNumber {get; set;}
-    
+    public DateTime Date {get;set;}
 }

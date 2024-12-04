@@ -25,7 +25,7 @@ public class ReplacementRepository : IReplacementRepository
         _pushReplacementService = pushReplacementService;
     }
 
-    public async Task<int> CreateReplacement(ReplacementDtoPost replacementDtoPost)
+    public async Task<IEnumerable<PushReplacementUser>> CreateReplacement(ReplacementDtoPost replacementDtoPost)
     {
 
         var query = _query.Query("Replacements").AsInsert(new 
@@ -40,8 +40,10 @@ public class ReplacementRepository : IReplacementRepository
                 Date = replacementDtoPost.Date
 
         });
-        //_pushReplacementService.SendingPush(GetReplacementById());
-        return await _query.ExecuteAsync(query);
+        await _query.ExecuteAsync(query);
+        var replacementDtoGet = _query.FirstOrDefault<ReplacementDtoGet>( _query.Query("Replacements").Where("Date" , replacementDtoPost.Date).Select());
+        
+        return  await _pushReplacementService.SendingPush(replacementDtoGet);
         
     }
 
@@ -72,7 +74,7 @@ public class ReplacementRepository : IReplacementRepository
 
             });
 
-        if (affected != 1) throw new Exception("Студент не найден");
+        if (affected != 1) throw new Exception("не удалось изменить запись");
         return affected;
     }
 

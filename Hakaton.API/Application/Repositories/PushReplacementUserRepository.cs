@@ -1,4 +1,5 @@
 using Hakaton.API.Application.Interfaces;
+using Hakaton.API.Domen.Dto;
 using Hakaton.API.Domen.Entities;
 using Hakaton.API.Infrustructure.Data;
 using SqlKata.Execution;
@@ -11,12 +12,12 @@ public class PushReplacementUserRepository : IPushReplacementUserRepository
     {
         _query = hakatonContext.PostgresQueryFactory;
     }
-    public async Task<int> CreatePushReplacementUser(User user , Replacement replacement)
+    public async Task<int> CreatePushReplacementUser(int userId , int replacementId)
     {
         var query = _query.Query("PushReplacementUsers").AsInsert
         ( new{
-            ReplacementId =  replacement.Id,
-            UserId =  user.Id
+            ReplacementId =  replacementId,
+            UserId =  userId
         });
         if(query is null) throw new Exception("Неудалось создать запись");
         return await _query.ExecuteAsync(query);
@@ -54,9 +55,9 @@ public class PushReplacementUserRepository : IPushReplacementUserRepository
         return result;  
     }
 
-    public async  Task<IEnumerable<PushReplacementUser>> GetPushReplacementUsers()
+    public async  Task<IEnumerable<PushReplacementUser>> GetPushReplacementUsers(int replacementId)
     {
-        var query = _query.Query("PushReplacementUsers")
+        var query = _query.Query("PushReplacementUsers").Where("ReplacementId", replacementId)
             .Select("Id","UserId","ReplacementId");
 
         var result = await _query.GetAsync<PushReplacementUser>(query);

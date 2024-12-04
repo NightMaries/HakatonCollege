@@ -68,22 +68,22 @@ public class StudentRepository : IStudentRepository
         return affected;
     }
 
-    public async Task<IEnumerable<StudentDto>> GetStudents()
+    public async Task<IEnumerable<Student>> GetStudents()
     {
         var query = _query.Query("Students")
             .Select("Id","UserId","GroupId","FIO");
 
-        var result = await _query.GetAsync<StudentDto>(query);
-        if (result is null || !result.Any()) throw new Exception("Нет данных");
+        var result = await _query.GetAsync<Student>(query);
+        if (result is null ) throw new Exception("Нет данных");
         return result;
 
     }
-    public async Task<StudentDto> GetStudentById(int id)
+    public async Task<Student> GetStudentById(int id)
     {
         var query = _query.Query("Students").Where("Id",id)
         .Select("Id","FIO","UserId","GroupId");
 
-        var result = await _query.FirstOrDefaultAsync<StudentDto>(query);
+        var result = await _query.FirstOrDefaultAsync<Student>(query);
         if(result is null) throw new Exception("Студент не найден");
         return result;
     }
