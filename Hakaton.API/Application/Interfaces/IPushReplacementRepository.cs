@@ -2,7 +2,7 @@
 using Hakaton.API.Domen.Entities;
 
 namespace Hakaton.API.Application.Interfaces;
-public interface IPushReplacementRepository
+public interface IPushReplacementUserRepository
 {
     public Task<int> CreatePushReplacementUser(User user, Replacement replacement);
 

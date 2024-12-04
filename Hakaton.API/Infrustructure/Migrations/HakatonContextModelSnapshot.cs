@@ -60,7 +60,13 @@ namespace Hakaton.API.Migrations
                     b.Property<int>("NewSubjectId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("NewTeacherId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("OldSubjectId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("OldTeacherId")
                         .HasColumnType("integer");
 
                     b.Property<int>("PairNumber")
@@ -75,7 +81,11 @@ namespace Hakaton.API.Migrations
 
                     b.HasIndex("NewSubjectId");
 
+                    b.HasIndex("NewTeacherId");
+
                     b.HasIndex("OldSubjectId");
+
+                    b.HasIndex("OldTeacherId");
 
                     b.ToTable("Replacements");
                 });
@@ -140,6 +150,45 @@ namespace Hakaton.API.Migrations
                     b.HasIndex("TeacherId");
 
                     b.ToTable("Schedules");
+                });
+
+            modelBuilder.Entity("Hakaton.API.Domen.Entities.ScheduleForTeacher", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("GroupId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PairNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StudyWeekId")
+                        .HasColumnType("integer");
+
+                    b.PrimitiveCollection<int[]>("StudyWeeks")
+                        .IsRequired()
+                        .HasColumnType("integer[]");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("WeekDay")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("StudyWeekId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("ScheduleForTeachers");
                 });
 
             modelBuilder.Entity("Hakaton.API.Domen.Entities.Student", b =>
@@ -272,7 +321,7 @@ namespace Hakaton.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("PushReplacement", b =>
+            modelBuilder.Entity("PushReplacementUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -283,32 +332,14 @@ namespace Hakaton.API.Migrations
                     b.Property<int>("ReplacementId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ReplacementId");
 
-                    b.ToTable("PushReplacements");
-                });
-
-            modelBuilder.Entity("PushReplacementUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("pushReplacementId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
                     b.HasIndex("UserId");
-
-                    b.HasIndex("pushReplacementId");
 
                     b.ToTable("PushReplacementUsers");
                 });
@@ -338,9 +369,21 @@ namespace Hakaton.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Hakaton.API.Domen.Entities.Teacher", "NewTeacher")
+                        .WithMany()
+                        .HasForeignKey("NewTeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Hakaton.API.Domen.Entities.Subject", "OldSubject")
                         .WithMany()
                         .HasForeignKey("OldSubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hakaton.API.Domen.Entities.Teacher", "OldTeacher")
+                        .WithMany()
+                        .HasForeignKey("OldTeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -348,7 +391,11 @@ namespace Hakaton.API.Migrations
 
                     b.Navigation("NewSubject");
 
+                    b.Navigation("NewTeacher");
+
                     b.Navigation("OldSubject");
+
+                    b.Navigation("OldTeacher");
                 });
 
             modelBuilder.Entity("Hakaton.API.Domen.Entities.Schedule", b =>
@@ -382,6 +429,33 @@ namespace Hakaton.API.Migrations
                     b.Navigation("StudyWeek");
 
                     b.Navigation("Subject");
+
+                    b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("Hakaton.API.Domen.Entities.ScheduleForTeacher", b =>
+                {
+                    b.HasOne("Hakaton.API.Domen.Entities.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hakaton.API.Domen.Entities.StudyWeek", "StudyWeek")
+                        .WithMany()
+                        .HasForeignKey("StudyWeekId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Hakaton.API.Domen.Entities.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Group");
+
+                    b.Navigation("StudyWeek");
 
                     b.Navigation("Teacher");
                 });
@@ -438,32 +512,21 @@ namespace Hakaton.API.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("PushReplacement", b =>
+            modelBuilder.Entity("PushReplacementUser", b =>
                 {
-                    b.HasOne("Hakaton.API.Domen.Entities.Replacement", "Replacements")
+                    b.HasOne("Hakaton.API.Domen.Entities.Replacement", "Replacement")
                         .WithMany()
                         .HasForeignKey("ReplacementId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Replacements");
-                });
-
-            modelBuilder.Entity("PushReplacementUser", b =>
-                {
                     b.HasOne("Hakaton.API.Domen.Entities.User", "user")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PushReplacement", "pushReplacement")
-                        .WithMany()
-                        .HasForeignKey("pushReplacementId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("pushReplacement");
+                    b.Navigation("Replacement");
 
                     b.Navigation("user");
                 });

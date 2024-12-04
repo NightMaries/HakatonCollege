@@ -39,6 +39,22 @@ public class UserController : ControllerBase
             return NotFound();
         return Ok(user);
     }
+    [HttpGet ("{login}")]
+    public async Task<IActionResult> FindUserByLogin(string login)
+    {
+        var user = await _repository.GetUserByLogin(login);
+        if(user is null)
+            return NotFound();
+        return Ok(user);
+    }
+    [HttpGet ("{token}")]
+    public async Task<IActionResult> FindUserByToken(string token)
+    {
+        var user = await _repository.GetUserByToken(token);
+        if(user is null)
+            return NotFound();
+        return Ok(user);
+    }
 
     [HttpGet]
     public async Task<IActionResult> GetUsers()
@@ -71,7 +87,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CheckPassword([FromQuery]UserDto userDto)
     {
         var result = await _loginService.CheckUserPassword(userDto);
-        if(result is null) throw new  Exception("Неверный пароль или логин");
+        if(result == 0) throw new  Exception("Неверный пароль или логин");
         return Ok(result);
     }
 }

@@ -88,6 +88,16 @@ public class UserRepository : IUserRepository
         if(result is null) throw new Exception("Пользователь не найден");
         return result;
     }
+    public async Task<User> GetUserByToken(string token)
+    {
+        var query = _query.Query("Users")
+            .Where("Token",token)
+            .Select("Id","Login","PasswordHash","Token","Users.RoleId","Subscription");
+
+        var result = await _query.FirstOrDefaultAsync<User>(query);
+        if(result is null) throw new Exception("Пользователь не найден");
+        return result;
+    }
     public async Task<IEnumerable<User>> GetUsers()
     {
         var query = _query.Query("Users")

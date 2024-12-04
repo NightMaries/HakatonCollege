@@ -36,7 +36,7 @@ public class LoginService: ILoginService
     
     
    
-    public async Task<string> CheckUserPassword(UserDto userDto)
+    public async Task<int> CheckUserPassword(UserDto userDto)
     {
 
         User user = await _repository.GetUserByLogin(userDto.Login);
@@ -45,13 +45,12 @@ public class LoginService: ILoginService
         
         // Расшифровка пароля
         string decryptedPassword = _crypt.Decrypt(password);
-        Console.WriteLine($"Расшифрованный пароль: {decryptedPassword}");
         
         
         if(decryptedPassword != userDto.Password) throw new Exception("Неверный пароль");
         var jwt = await _token.CreateToken(userDto.Login);
-
-        return jwt;
+        var userGet  = await _repository.GetUserByLogin(userDto.Login);
+        return userGet.Id;
         
     }
 

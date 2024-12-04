@@ -10,6 +10,7 @@ public interface IUserRepository
     public Task<User> GetUserById(int id);
     
     public Task<User> GetUserByLogin(string login);
+    public Task<User> GetUserByToken(string token);
     public Task<IEnumerable<User>> GetUsers();
     public Task<bool> DeleteUser(int id);
 

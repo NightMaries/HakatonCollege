@@ -5,22 +5,24 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Hakaton.API.Application.Services;
 
-public class PushReplacementService
+public class PushReplacementService: IPushReplacementService
 {
     private readonly IUserRepository _userRepository;
     private readonly IReplacementRepository _replacementRepository;
-    private readonly IPushReplacementRepository _pushReplacementRepositorys;
+    private readonly IPushReplacementUserRepository _pushReplacementUserRepositorys;
 
     public PushReplacementService(IUserRepository userRepository,IReplacementRepository replacementRepository,
-        IPushReplacementRepository pushReplacementRepositorys)
+        IPushReplacementUserRepository pushReplacementRepositorys)
     {
-        _userRepository = userRepository;
+         _userRepository = userRepository;
         _replacementRepository = replacementRepository;
-        _pushReplacementRepositorys = pushReplacementRepositorys;
-    }  
+        _pushReplacementUserRepositorys = pushReplacementRepositorys;
+        
+    }
+    
     
 
-    public async Task<int> SendingPush(Replacement replacement)
+    public async Task<IEnumerable<PushReplacementUser>> SendingPush(Replacement replacement)
     {
         IEnumerable<User> users = await _userRepository.GetUsers();
         int count = 0;
@@ -28,11 +30,11 @@ public class PushReplacementService
         {
             if(user.Subscription)
             {    
-                await _pushReplacementRepositorys.CreatePushReplacementUser(user, replacement);
+                await _pushReplacementUserRepositorys.CreatePushReplacementUser(user, replacement);
                 count++; 
             }
         }
-        return count;
+        return await _pushReplacementUserRepositorys.GetPushReplacementUsers();
     }
 
     

@@ -28,6 +28,7 @@ public class HakatonContext: DbContext
     DbSet<Teacher> Teachers {get; set;}
     DbSet<StudyWeek> StudyWeeks {get; set;}
     DbSet<Group> Groups {get; set;}    
+    DbSet<ScheduleForTeacher>ScheduleForTeachers {get; set;}
     DbSet<PushReplacementUser> PushReplacementUsers {get; set;}    
     private readonly IConfiguration _configuration;
     private readonly ILogger<HakatonContext> _logger;

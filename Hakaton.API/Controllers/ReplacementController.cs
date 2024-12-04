@@ -26,7 +26,7 @@ public class ReplacementController: ControllerBase
         return Ok(result);
     }
     [HttpPost]    
-    public async Task<IActionResult> CreateReplacement(ReplacementDto replacement)
+    public async Task<IActionResult> CreateReplacement(ReplacementDtoPost replacement)
     {
         var result = await _replacementRepository.CreateReplacement(replacement);
         if(result != 1)
@@ -42,7 +42,7 @@ public class ReplacementController: ControllerBase
         return Ok(result);
     }
     [HttpPut]
-    public async Task<IActionResult> EditReplacement(ReplacementDto replacementDto, int id)
+    public async Task<IActionResult> EditReplacement(ReplacementDtoPost replacementDto, int id)
     {
         var result = await _replacementRepository.EditReplacement(replacementDto,id);
         return Ok(result);

@@ -71,4 +71,6 @@ public class TeacherRepository : ITeacherRepository
         if(result is null) throw new Exception("Данных нет в БД");
         return result;
     }
+
+    
 }

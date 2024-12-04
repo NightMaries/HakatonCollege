@@ -4,7 +4,7 @@ using Hakaton.API.Infrustructure.Data;
 using SqlKata.Execution;
 
 namespace Hakaton.API.Application.Repositories;
-public class PushReplacementUserRepository : IPushReplacementRepository
+public class PushReplacementUserRepository : IPushReplacementUserRepository
 {
     private readonly QueryFactory _query;
     public PushReplacementUserRepository(HakatonContext hakatonContext)

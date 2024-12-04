@@ -9,10 +9,22 @@ using Microsoft.IdentityModel.Tokens;
 public class TokenController : ControllerBase
 {
     private readonly IConfiguration _config;
-    public TokenController(IConfiguration config)
+    private readonly IParcingScheduleForTeachersService _parcingScheduleForTeachers;
+
+    public TokenController(IConfiguration config, IParcingScheduleForTeachersService parcingScheduleForTeachers)
     {
         _config = config;
+        _parcingScheduleForTeachers = parcingScheduleForTeachers;
     }
+
+    [HttpGet ("Parcing")]
+    public IActionResult Parcing()
+    {
+        string path = "../Resources/ScheduleForTeachers.xlsx";
+        var result = _parcingScheduleForTeachers.Parcing();
+        return Ok(result);
+    }
+
 
     [HttpGet]
     public IActionResult GenerateToken()

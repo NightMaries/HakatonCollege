@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Hakaton.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6df27bc42a60d313954e8f8653f25c808d6ef3c2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4c389bf86b80dc11762a0d7092d8af59afeb2787")]
 [assembly: System.Reflection.AssemblyProductAttribute("Hakaton.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Hakaton.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
