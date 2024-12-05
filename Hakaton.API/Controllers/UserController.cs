@@ -88,7 +88,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> CheckPassword([FromQuery]UserDto userDto)
     {
         var result = await _loginService.CheckUserPassword(userDto);
-        if(result is null ) throw new  Exception("Неверный пароль или логин");
+            if(result is null ) throw new  Exception("Неверный пароль или логин");
         return Ok(result);
     }
 }
