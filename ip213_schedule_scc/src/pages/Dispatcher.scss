@@ -1,0 +1,40 @@
+.formCard {
+  transform: translateY(200px);
+  padding: 20px;
+  background: linear-gradient(
+    to left bottom,
+    rgba(159, 197, 192, 0.9),
+    rgba(115, 214, 201, 0.9)
+  ) !important;
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+
+  & form {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  & .submitButton {
+    padding: 10px !important;
+    padding: 0;
+    padding-left: 34px;
+    border: 2px solid #fefcfb;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0);
+    color: #fefcfb;
+    font-weight: 600;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+
+    &:hover {
+      color: #73d6c9;
+      background: #fefcfb;
+      transition: 0.3s;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.usersContainer {    
+    margin-top: 50px;
+    padding: 20px !important;
+    width: fit-content;
+    background: linear-gradient(to top right,
+            rgba(0, 124, 106, 0.9),
+            rgba(97, 192, 181, 0.9)) !important;
+    backdrop-filter: blur(10px);
+
+    & td {
+        color: #fefcfb !important;
+    }
+}

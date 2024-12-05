@@ -1,0 +1,94 @@
+.headerContainer {
+    height: 4rem;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 3rem;
+    top: 0;
+    left: 0;
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    align-items: center;
+    background: rgba(187, 229, 222, 0.3);
+    backdrop-filter: blur(10px);
+    border-bottom: 3px solid rgba(163, 219, 211, 0.9);
+    color: #fefcfb;
+    z-index: 10;
+
+    & .header-link {
+        text-decoration: none;
+        color: #fefcfb;
+    }
+
+    & .container-flex {
+        display: flex;
+        gap: 15px;
+    }
+}
+
+.muiBtn, .header-tooltip {
+    background-color: rgba(0, 0, 0, 0) !important;
+    margin: 0;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    text-align: center;
+    border-radius: 20% !important;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: rgb(130, 169, 165, 0.2) !important;        
+        transition: 0.1s;
+    }
+}
+
+.profile-drawer {
+
+    padding: 0;
+
+    & .drawer-sheet {
+        padding: 0;
+        background: linear-gradient(to left bottom, rgba(159, 197, 192, 0.9), rgba(115, 214, 201, 0.9)) !important;
+        backdrop-filter: blur(10px);
+    }
+
+    & .profile-drawer-div {
+        display: flex;
+        gap: 15px;
+        border-radius: 7.5px;
+        padding: 7.5px;
+        
+        color: #fefcfb;
+
+        & .profile-logo {
+            border-radius: 50%;
+            height: 60px;
+            width: 60px;
+        }
+
+        & .profile-name-group-prep {
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+    }
+}
+
+.link {
+    text-decoration: none;
+    transition: 0.2s;
+    padding: 2px 0;
+    
+    &:hover {
+        background-color: rgb(130, 169, 165, 0.2) !important;        
+        transition: 0.3s;
+        padding: 2px 5px;
+        border-radius: 8px;
+    }
+}

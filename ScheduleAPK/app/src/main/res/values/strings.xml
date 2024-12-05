@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Расписание</string>
+    <string name="login_failed">Не удалось войти</string>
+    <string name="fetch_failed">Не удалось загрузить расписание</string>
+    <string name="schedule_time">Время: %1$s - %2$s</string>
+    <string name="schedule_pair">Номер пары: %1$d</string>
+</resources>

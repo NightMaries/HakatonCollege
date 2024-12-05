@@ -1,0 +1,150 @@
+.scheduleContainer {
+  margin-top: 50px;
+  padding: 20px !important;
+  width: fit-content;
+  background: linear-gradient(
+    to top right,
+    rgba(0, 124, 106, 0.9),
+    rgba(97, 192, 181, 0.9)
+  ) !important;
+  backdrop-filter: blur(10px);
+
+  &Flex {
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between;
+  }
+
+  & .titleText {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fefcfb;
+    
+    &Center {
+      text-align: center;
+      font-weight: 600;
+      color: #fefcfb;
+    }
+  }
+
+  & button {
+    width: fit-content;
+    height: fit-content;
+    padding: none;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+
+    & .settingsIcon:hover {
+      transform: rotate(35deg);
+      transition: 0.3s;
+    }
+  }
+
+  & .cardHeader {
+    display: flex;
+    align-items: center;
+
+    & .settingsIcon {
+      transition: 0.2s;
+    }
+
+    & .searchInput {
+      max-width: 300px;
+      height: 30px !important;
+      margin: 0 10px;
+      box-shadow: none !important;
+    }
+  }
+
+  & .fullSchedule {
+    color: #fefcfb;
+    // width: auto;
+    
+    & .current-pair {
+      border: 1px solid red;
+    }
+
+    & .subjectCard {
+      width: 300px;
+      background-color: rgba($color: #000000, $alpha: 0);
+      padding: 5px 10px;
+
+      &Description {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+
+        &Text {
+          color: #fefcfb;
+          font-size: 0.85rem;
+          font-weight: 400;
+        }
+      }
+    }
+
+    & .weekDay {
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+      font-weight: 400;
+      text-align: center;
+
+      & {
+        font-size: 1.5rem;
+      }
+    }
+
+    & .divider {
+      background-color: #fefcfb;
+    }
+
+    & th {
+      background-color: rgba($color: #000000, $alpha: 0);
+      &:nth-child(n+3) {
+        
+      }
+    }
+
+    &Title {
+      padding-left: 17px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #fefcfb;
+    }
+  }
+}
+
+.drawerSheet {
+  background: linear-gradient(
+    to left bottom,
+    rgba(159, 197, 192, 0.9),
+    rgba(115, 214, 201, 0.9)
+  ) !important;
+  backdrop-filter: blur(10px);
+
+  color: #fefcfb;
+  padding: 10px;
+
+  & .dividerText {
+    color: #fefcfb;
+
+    &::before,
+    &::after {
+      background-color: #fefcfb;
+    }
+  }
+
+  & .btnGroup {
+    display: flex;
+    justify-content: space-evenly;
+  }
+
+  & .selection {
+    min-height: 35px;
+  }
+}
+
+.find {
+  background-color: rgba(241, 212, 48, 0.7);
+  transition: 0.5s;
+}

@@ -1,0 +1,19 @@
+.changesSchedule {
+   color: #fefcfb !important;
+
+    &Conatiner {
+        margin-top: 50px;
+        padding: 20px !important;
+        width: fit-content;
+        background: linear-gradient(to top right,
+                rgba(0, 124, 106, 0.9),
+                rgba(97, 192, 181, 0.9)) !important;
+        backdrop-filter: blur(10px);
+    }
+
+    & th {
+        color: #fefcfb !important;
+        background-color: rgba($color: #000000, $alpha: 0) !important;
+    }
+
+}
